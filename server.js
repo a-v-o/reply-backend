@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
 
@@ -8,6 +9,7 @@ const PORT = process.env.PORT || 3000;
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "Server is running" });
@@ -34,7 +36,7 @@ app.post("/generate-reply", async (req, res) => {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
     // Create the prompt for generating a tweet reply
-    const prompt = `You are a witty and engaging crypto Twitter/X user. Someone tweeted: "${text.trim()}"
+    const prompt = `You are a witty and engaging Twitter/X user. Someone tweeted: "${text.trim()}"
 
 Generate a clever, concise, and engaging tweet reply (maximum 280 characters) that:
 - Responds directly to their tweet
